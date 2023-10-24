@@ -26,24 +26,28 @@ public class Main {
         int m;
         Scanner sc = new Scanner(System.in);
 
-        try {
-            System.out.println("Enter a: ");
-            a = sc.nextInt();
+        while (true) {
+            try {
+                System.out.println("Enter a: ");
+                a = sc.nextInt();
 
-            System.out.println("Enter b: ");
-            b = sc.nextInt();
+                System.out.println("Enter b: ");
+                b = sc.nextInt();
 
-            System.out.println("Enter n: ");
-            n = sc.nextInt();
+                System.out.println("Enter n: ");
+                n = sc.nextInt();
 
-            System.out.println("Enter m: ");
-            m = sc.nextInt();
+                System.out.println("Enter m: ");
+                m = sc.nextInt();
 
-            if (validate(a, b, n, m)) {
-                System.out.println("Sum = " + calculateSum(a, b, n, m));
+                if (validate(a, b, n, m)) {
+                    System.out.println("Sum = " + calculateSum(a, b, n, m));
+                    break;
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid input. Please enter an integer.");
+                sc.nextLine();
             }
-        } catch (Exception e) {
-            System.out.println("Invalid input. Please enter an integer.");
         }
     }
 
