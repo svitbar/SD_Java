@@ -1,6 +1,6 @@
 package org.example;
 
-public class Sumator {
+public class Sum {
     public static double calculateSum(int a, int b, int n, int m) {
         double S = 0;
 

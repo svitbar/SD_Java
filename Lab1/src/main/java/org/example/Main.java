@@ -27,7 +27,7 @@ public class Main {
 
                 Validator.validateArgs(a, b, n, m);
 
-                System.out.println("Sum = " + Sumator.calculateSum(a, b, n, m));
+                System.out.println("Sum = " + Sum.calculateSum(a, b, n, m));
 
                 break;
             } catch (InputMismatchException e) {
