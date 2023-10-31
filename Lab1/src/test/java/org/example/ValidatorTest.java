@@ -38,7 +38,7 @@ class ValidatorTest {
             Validator.validateArgs(-1, -2, -3, -4);
         });
 
-        assertEquals(error, aLessThanZero.getMessage());
+        assertEquals(error, allLessThanZero.getMessage());
     }
 
     // b = 0 => division by zero
