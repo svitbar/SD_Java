@@ -43,5 +43,16 @@ public class MatrixCalculator {
             }
             System.out.println();
         }
+        System.out.println();
+    }
+
+    public static void showMatrix(char[][] matrix) {
+        for (char[] row : matrix) {
+            for (char el: row) {
+                System.out.print(el + "\t");
+            }
+            System.out.println();
+        }
+        System.out.println();
     }
 }
