@@ -23,7 +23,7 @@ public class MatrixCalculator {
 
     public static int maxRowSum(int[][] C) {
         if (C.length == 0) {
-            throw new IllegalArgumentException("Cannot calculate a max row sum of an empty matrix.");
+            throw new IllegalArgumentException("Cannot calculate rows' max sum of an empty matrix.");
         }
 
         int res = 0;

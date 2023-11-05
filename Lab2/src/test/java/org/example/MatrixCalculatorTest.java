@@ -43,7 +43,7 @@ class MatrixCalculatorTest {
 
     @Test
     void testMaxRowSumEmpty() {
-        String exMessage = "Cannot calculate a max row sum of an empty matrix.";
+        String exMessage = "Cannot calculate rows' max sum of an empty matrix.";
 
         Exception ex = assertThrows(IllegalArgumentException.class, () -> {
             MatrixCalculator.maxRowSum(e);

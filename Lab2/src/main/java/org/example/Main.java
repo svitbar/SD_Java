@@ -52,7 +52,7 @@ public class Main {
             MatrixCalculator.showMatrix(res);
 
             int sum = MatrixCalculator.maxRowSum(res);
-            System.out.println("Row's max sum = " + sum + "\n");
+            System.out.println("Rows' max sum = " + sum + "\n");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
