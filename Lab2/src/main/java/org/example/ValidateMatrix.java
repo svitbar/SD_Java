@@ -26,14 +26,18 @@ public class ValidateMatrix {
     }
 
     public static void compareMatrixSize(char[][] first, char[][] second) {
-        if (first.length != second.length || first[0].length != second[0].length) {
+        if (first.length == 0 && second.length == 0) return;
+
+        if (first.length != second.length) {
+            throw new IllegalArgumentException("Matrix size should be equal!");
+        } else if (first[0].length != second[0].length) {
             throw new IllegalArgumentException("Matrix size should be equal!");
         }
     }
 
     public static void validateMatrixElements(char[][] matrix) {
-        for (char[] row: matrix) {
-            for (char el: row) {
+        for (char[] row : matrix) {
+            for (char el : row) {
                 if (!Character.isDigit(el)) {
                     throw new IllegalArgumentException("Matrix should contain only numbers.");
                 }
