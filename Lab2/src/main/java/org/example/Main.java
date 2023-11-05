@@ -9,7 +9,7 @@ public class Main {
         // C7  = 1202 % 7  = 5 => char
         // C11 = 1202 % 11 = 3 => Sum of rows' max
 
-        char[][] A = {
+/*        char[][] A = {
                 {'0', '2', '3', '9'},
                 {'4', '2', '3', '4'},
                 {'1', '7', '5', '4'},
@@ -21,13 +21,20 @@ public class Main {
                 {'7', '2', '3', '9'},
         };
 
-        char[][] a = {};
+        run(A, B);*/
+
+/*        char[][] a = {};
         char[][] b = {};
 
-         // run(A, B);
-         // run(a, b);
+        run(a, b);*/
 
-        runWithRandomMatrix();
+        int n = getMatrixSize();
+        int m = getMatrixSize();
+
+        char[][] aMatrix = MatrixCalculator.getRandomMatrix(n, m);
+        char[][] bMatrix = MatrixCalculator.getRandomMatrix(n, m);
+
+        run(aMatrix, bMatrix);
     }
 
     public static void run(char[][] a, char[][] b) {
@@ -51,24 +58,19 @@ public class Main {
         }
     }
 
-    public static void runWithRandomMatrix() {
+    public static int getMatrixSize() {
         Scanner sc = new Scanner(System.in);
-        int n;
-        int m;
+        int num;
 
         while (true) {
             try {
-                System.out.println("Please input n: ");
-                n = sc.nextInt();
-                validateSizeParam(n);
-
-                System.out.println("Please input m: ");
-                m = sc.nextInt();
-                validateSizeParam(m);
+                System.out.println("Please enter a number: ");
+                num = sc.nextInt();
+                validateSizeParam(num);
 
                 break;
             } catch (InputMismatchException e) {
-                System.out.println("Invalid input. Input should be an integer.");
+                System.out.println("Invalid input. Number should be an integer.");
                 sc.nextLine();
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
@@ -76,10 +78,7 @@ public class Main {
             }
         }
 
-        char[][] A = MatrixCalculator.getRandomMatrix(n, m);
-        char[][] B = MatrixCalculator.getRandomMatrix(n, m);
-
-        run(A, B);
+        return num;
     }
 
     public static void validateSizeParam(int input) {
