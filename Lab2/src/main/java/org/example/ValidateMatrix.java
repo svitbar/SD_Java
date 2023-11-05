@@ -26,7 +26,7 @@ public class ValidateMatrix {
     }
 
     public static void compareMatrixSize(char[][] first, char[][] second) {
-        if (first.length != second.length && first[0].length != second[0].length) {
+        if (first.length != second.length || first[0].length != second[0].length) {
             throw new IllegalArgumentException("Matrix size should be equal!");
         }
     }
