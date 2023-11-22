@@ -11,8 +11,7 @@ public class Main {
     }
 
 
-    public static void sortBySymbolCount(String text, char c) {
-        String[] words = text.split("\\W+");
+    public static void sortBySymbolCount(String[] words, char c) {
         Map<String, Integer> wordCount = new HashMap<>();
 
         for (String word: words) {
@@ -24,17 +23,36 @@ public class Main {
 
             wordCount.put(word, count);
         }
-        
+
+/*        List<Map.Entry<String, Integer>> sortedList = new ArrayList<>(wordCount.entrySet());
+        sortedList.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
+
+        for (Map.Entry<String, Integer> entry : sortedList) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }*/
         wordCount.entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByValue())
                 .forEachOrdered(entry -> System.out.println(entry.getValue() + ": " + entry.getKey()));
     }
 
-    public static String getTextToSort() {
+    public static String[] getTextToSort() {
         System.out.println("Please enter a string:");
         Scanner sc = new Scanner(System.in);
-        return sc.nextLine();
+        String str = sc.nextLine();
+        String[] wordsAndOther = str.split("\\W+");
+        ArrayList<String> words = new ArrayList<>();
+
+        for (String w: wordsAndOther) {
+            boolean isWord = w.chars().allMatch(Character::isLetter);
+            if (isWord) words.add(w);
+        }
+
+        if (words.isEmpty()) {
+            throw new InputMismatchException("String should contain words!");
+        }
+
+        return words.toArray(new String[0]);
     }
 
     public static char getChar() {
