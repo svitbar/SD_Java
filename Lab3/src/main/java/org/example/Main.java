@@ -1,6 +1,8 @@
 package org.example;
 
+import java.security.PublicKey;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
@@ -11,29 +13,14 @@ public class Main {
     }
 
 
-    public static void sortBySymbolCount(String[] words, char c) {
-        Map<String, Integer> wordCount = new HashMap<>();
+    public static String[] sortBySymbolCount(String[] words, char c) {
+        return Arrays.stream(words)
+                .sorted((w1, w2) -> Integer.compare(getCount(w2, c), getCount(w1, c)))
+                .toArray(String[]::new);
+    }
 
-        for (String word: words) {
-            int count = 0;
-
-            for (char symbol: word.toCharArray()) {
-                if (symbol == c) count++;
-            }
-
-            wordCount.put(word, count);
-        }
-
-/*        List<Map.Entry<String, Integer>> sortedList = new ArrayList<>(wordCount.entrySet());
-        sortedList.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
-
-        for (Map.Entry<String, Integer> entry : sortedList) {
-            System.out.println(entry.getKey() + ": " + entry.getValue());
-        }*/
-        wordCount.entrySet()
-                .stream()
-                .sorted(Map.Entry.comparingByValue())
-                .forEachOrdered(entry -> System.out.println(entry.getValue() + ": " + entry.getKey()));
+    public static int getCount(String word, char c) {
+        return (int) word.chars().filter(ch -> ch == c).count();
     }
 
     public static String[] getTextToSort() {
@@ -69,7 +56,8 @@ public class Main {
 
     public static void run() {
         try {
-            sortBySymbolCount(getTextToSort(), getChar());
+            String[] res = sortBySymbolCount(getTextToSort(), getChar());
+            System.out.println(Arrays.toString(res));
         } catch (InputMismatchException ex) {
             throw new RuntimeException("Please try again: " + ex.getMessage());
         }
