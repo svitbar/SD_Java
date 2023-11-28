@@ -3,7 +3,16 @@ package org.example;
 import java.util.Arrays;
 import java.util.Comparator;
 
+/***
+ * The main class represents an entry point of the program.
+ */
 public class Main {
+    /***
+     * An entry point of the program. It creates an array of Plane objects,
+     * sorts them, and display sorted array.
+     *
+     * @param args The command-line arguments.
+     */
     public static void main(String[] args) {
         // C11 = 1202 % 11 = 3 => plane
 
@@ -18,6 +27,12 @@ public class Main {
         displayArray(sort(planes));
     }
 
+    /***
+     * Sorts an array of Plane objects depending on their id and name.
+     *
+     * @param planes The array of Plane objects.
+     * @return The sorted array of plane objects.
+     */
     public static Plane[] sort(Plane[] planes) {
         Comparator<Plane> byId = Comparator.comparing(Plane::getId);
         Comparator<Plane> byName = Comparator.comparing(Plane::getName).reversed();
@@ -26,6 +41,11 @@ public class Main {
         return planes;
     }
 
+    /***
+     * Displays an array of Plane objects.
+     *
+     * @param planes The array of Plane objects.
+     */
     public static void displayArray(Plane[] planes) {
         for (Plane plane: planes) {
             System.out.println(plane.toString());
