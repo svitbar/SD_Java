@@ -4,7 +4,7 @@ public class Punctuation {
     private final char punctuation;
 
     public Punctuation(char punctuation) {
-        if (!String.valueOf(punctuation).matches("[.,;:?!'()\"]")) {
+        if (!String.valueOf(punctuation).matches("\\p{Punct}")) {
             throw new IllegalArgumentException("Invalid punctuation character.");
         }
 
