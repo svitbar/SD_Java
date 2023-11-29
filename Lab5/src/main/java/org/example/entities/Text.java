@@ -1,7 +1,5 @@
 package org.example.entities;
 
-import java.util.Arrays;
-
 public class Text {
     private final Sentence[] sentences;
 
@@ -15,7 +13,6 @@ public class Text {
         }
 
         String[] sentArray = text.split("(?<=[.!?])\\s*");
-        System.out.println(Arrays.toString(sentArray));
         Sentence[] result = new Sentence[sentArray.length];
 
         for (int i = 0; i < sentArray.length; i++) {

@@ -1,7 +1,6 @@
 package org.example.entities;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Sentence {
     private final Object[] sentence;
