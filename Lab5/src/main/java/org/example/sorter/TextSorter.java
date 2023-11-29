@@ -9,9 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class TextSorter {
-    public static Word[] getWordArray(String text, Letter c) {
-        Text textToSort = new Text(text);
-        Sentence[] sentences = textToSort.getSentences();
+    public static Word[] getWordArray(Text text, Letter c) {
+        Sentence[] sentences = text.getSentences();
         ArrayList<Word> wordsList = new ArrayList<>();
 
         for (Sentence sentence : sentences) {
