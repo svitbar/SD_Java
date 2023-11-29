@@ -1,12 +1,29 @@
 package org.example.entities;
 
+/**
+ * A Text class represents a text created from sentences.
+ */
 public class Text {
+    /**
+     * An array of Sentence objects representing text.
+     */
     private final Sentence[] sentences;
 
+    /**
+     * Constructs a Text object with specified array of sentences.
+     *
+     * @param sentences An array of Sentence objects.
+     */
     public Text(Sentence[] sentences) {
         this.sentences = sentences;
     }
 
+    /**
+     * Constructs a Text object with specified string.
+     *
+     * @param text A string representing a text.
+     * @throws IllegalArgumentException If provided string is empty.
+     */
     public Text(String text) {
         if (text.isEmpty()) {
             throw new IllegalArgumentException("Text should not be empty.");
@@ -22,6 +39,11 @@ public class Text {
         this.sentences = result;
     }
 
+    /**
+     * Gets the array of Sentence objects representing a text.
+     *
+     * @return An array of Sentence objects.
+     */
     public Sentence[] getSentences() {
         return sentences;
     }
