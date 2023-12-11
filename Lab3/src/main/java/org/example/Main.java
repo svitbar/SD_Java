@@ -25,7 +25,7 @@ public class Main {
         System.out.println("Please enter a string:");
         Scanner sc = new Scanner(System.in);
         String str = sc.nextLine();
-        String[] wordsAndOther = str.split("\\W+");
+        String[] wordsAndOther = str.split("[^\\p{L}]+");
         ArrayList<String> words = new ArrayList<>();
 
         for (String w: wordsAndOther) {
