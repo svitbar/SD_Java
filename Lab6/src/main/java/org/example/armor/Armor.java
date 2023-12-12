@@ -9,13 +9,13 @@ public class Armor {
         this.name = name;
 
         if (price < 0) {
-            throw new IllegalArgumentException("Cost should be more than zero.");
+            throw new IllegalArgumentException("Price should be greater than zero.");
         }
 
         this.price = price;
 
         if (weight <= 0) {
-            throw new IllegalArgumentException("Weight should be more than zero.");
+            throw new IllegalArgumentException("Weight should be greater than zero.");
         }
 
         this.weight = weight;
