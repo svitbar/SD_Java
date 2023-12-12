@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ArmorTest {
     @Test
-    public void testArmorConstructorValid() {
+    void testArmorConstructorValid() {
         Helmet helmet = new Helmet("h1", 123, 23.4);
         Sword sword = new Sword("sw1", 0, 5.3);
         Shield shield = new Shield("s1", 3000, 10);
@@ -34,7 +34,7 @@ class ArmorTest {
     }
 
     @Test
-    public void testArmorConstructorInvalidPrice() {
+    void testArmorConstructorInvalidPrice() {
         String excMess = "Price should be greater than zero.";
 
         IllegalArgumentException exc = assertThrows(IllegalArgumentException.class, () -> {
@@ -45,7 +45,7 @@ class ArmorTest {
     }
 
     @Test
-    public void testArmorConstructorInvalidWeight() {
+    void testArmorConstructorInvalidWeight() {
         String excMess = "Weight should be greater than zero.";
 
         IllegalArgumentException exc = assertThrows(IllegalArgumentException.class, () -> {
