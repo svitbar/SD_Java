@@ -12,6 +12,10 @@ public class KnightArmor  {
         return armor;
     }
 
+    public void addArmor(Armor item) {
+        armor.add(item);
+    }
+
     public int calculateArmorPrice() {
         int price = 0;
 
@@ -30,9 +34,16 @@ public class KnightArmor  {
     }
 
     public ArrayList<Armor> findArmorByPrice(int min, int max) {
+        if (min < 0 || max < 0) {
+            throw new IllegalArgumentException("Min and max value should be greater than zero");
+        } else if (min > max) {
+            throw new IllegalArgumentException("Minimum should be less than maximum.");
+        }
+
         ArrayList<Armor> armorPrice = new ArrayList<>();
+
         for (Armor item: armor) {
-            if (item.getPrice() >= min || item.getPrice() <= max) {
+            if (item.getPrice() >= min && item.getPrice() <= max) {
                 armorPrice.add(item);
             }
         }
