@@ -7,13 +7,28 @@ import org.example.armor.Sword;
 
 import java.util.ArrayList;
 
+/**
+ * The Main class shows a basic application logic.
+ */
 public class Main {
+    /**
+     * The main method that initiates the execution of the program.
+     *
+     * @param args The command-line arguments (not used in this program).
+     */
     public static void main(String[] args) {
         // C13 = 1202 % 6 = 13 => knight
 
         perform();
     }
 
+    /**
+     * Executes the main functionality of the program:
+     * - Shows the list of armor.
+     * - Shows total armor price.
+     * - Shows sorted by weight armor list.
+     * - Shows armor list which price is in specified range.
+     */
     public static void perform() {
         try {
             KnightArmor knight = knightArmor();
@@ -38,6 +53,11 @@ public class Main {
         }
     }
 
+    /**
+     * Sets default KnightArmor values.
+     *
+     * @return KnightArmor object with default values.
+     */
     private static KnightArmor knightArmor() {
         KnightArmor knight = new KnightArmor();
 
