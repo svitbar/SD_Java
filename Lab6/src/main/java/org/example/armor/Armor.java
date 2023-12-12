@@ -1,9 +1,9 @@
 package org.example.armor;
 
 public class Armor {
+    private final String name;
     private final int price;
     private final double weight;
-    private final String name;
 
     public Armor(String name, int price, double weight) {
         this.name = name;
@@ -35,10 +35,10 @@ public class Armor {
 
     @Override
     public String toString() {
-        return "Armor{" +
-                "price=" + price +
-                ", weight=" + weight +
-                ", name='" + name + '\'' +
-                '}';
+        return "Armor {" +
+                "\nname: " + name +
+                "\nprice: " + price +
+                "\nweight: " + weight +
+                "\n}";
     }
 }
