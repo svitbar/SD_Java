@@ -10,14 +10,14 @@ import java.util.List;
  * The KnightArmor class represents a collection of armor for a knight.
  */
 public class KnightArmor  {
-    private final ArrayList<Armor> armor = new ArrayList<>();
+    private final List<Armor> armor = new ArrayList<>();
 
     /**
      * Gets the armor collection.
      *
      * @return the armor collection.
      */
-    public ArrayList<Armor> getArmor() {
+    public List<Armor> getArmor() {
         return armor;
     }
 
@@ -50,8 +50,8 @@ public class KnightArmor  {
      *
      * @return a sorted list of armor by weight.
      */
-    public ArrayList<Armor> sortArmorByWeight() {
-        ArrayList<Armor> sortedArray = new ArrayList<>(armor);
+    public List<Armor> sortArmorByWeight() {
+        List<Armor> sortedArray = new ArrayList<>(armor);
         sortedArray.sort(Comparator.comparing(Armor::getWeight));
 
         return sortedArray;
@@ -65,14 +65,14 @@ public class KnightArmor  {
      * @return a list of armor within the specified price range.
      * @throws IllegalArgumentException if min or max is less than zero, or if min is greater than max.
      */
-    public ArrayList<Armor> findArmorByPrice(int min, int max) {
+    public List<Armor> findArmorByPrice(int min, int max) {
         if (min < 0 || max < 0) {
             throw new IllegalArgumentException("Min and max value should be greater than zero");
         } else if (min > max) {
             throw new IllegalArgumentException("Minimum should be less than maximum.");
         }
 
-        ArrayList<Armor> armorPrice = new ArrayList<>();
+        List<Armor> armorPrice = new ArrayList<>();
 
         for (Armor item: armor) {
             if (item.getPrice() >= min && item.getPrice() <= max) {
@@ -88,7 +88,7 @@ public class KnightArmor  {
      *
      * @param armorList the list of armor to display.
      */
-    public void displayArmor(ArrayList<Armor> armorList) {
+    public void displayArmor(List<Armor> armorList) {
         for (Armor item: armorList) {
             System.out.println(item.toString());
         }

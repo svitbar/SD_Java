@@ -6,6 +6,7 @@ import org.example.armor.Shield;
 import org.example.armor.Sword;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Main class shows a basic application logic.
@@ -39,13 +40,13 @@ public class Main {
             int totalPrice = knight.calculateArmorPrice();
             System.out.println("\nTotal price: " + totalPrice);
 
-            ArrayList<Armor> sorted = knight.sortArmorByWeight();
+            List<Armor> sorted = knight.sortArmorByWeight();
             System.out.println("\nSorted armor list:");
             knight.displayArmor(sorted);
 
             int min = 34;
             int max = 567;
-            ArrayList<Armor> byPrice = knight.findArmorByPrice(min, max);
+            List<Armor> byPrice = knight.findArmorByPrice(min, max);
             System.out.println("\nAll armor which price is in the range from " + min + " to " + max + ".");
             knight.displayArmor(byPrice);
         } catch (RuntimeException ex) {

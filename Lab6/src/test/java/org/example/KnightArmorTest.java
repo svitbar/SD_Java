@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -50,12 +51,12 @@ class KnightArmorTest {
         knightArmor.addArmor(sword);
         knightArmor.addArmor(shield);
 
-        ArrayList<Armor> expected = new ArrayList<>();
+        List<Armor> expected = new ArrayList<>();
         expected.add(helmet);
         expected.add(shield);
         expected.add(sword);
 
-        ArrayList<Armor> actual = knightArmor.sortArmorByWeight();
+        List<Armor> actual = knightArmor.sortArmorByWeight();
 
         assertEquals(expected.get(0), actual.get(0));
         assertEquals(expected.get(1), actual.get(1));
@@ -70,7 +71,7 @@ class KnightArmorTest {
 
         int min = 200;
         int max = 3500;
-        ArrayList<Armor> actual = knightArmor.findArmorByPrice(min, max);
+        List<Armor> actual = knightArmor.findArmorByPrice(min, max);
 
         ArrayList<Armor> expected = new ArrayList<>();
         expected.add(helmet);
