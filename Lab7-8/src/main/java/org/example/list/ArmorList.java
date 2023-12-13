@@ -3,7 +3,6 @@ package org.example.list;
 import org.example.armor.Armor;
 import org.example.exception.ArmorException;
 
-import javax.print.attribute.standard.JobKOctets;
 import java.util.*;
 
 public class ArmorList implements List<Armor> {
@@ -68,9 +67,6 @@ public class ArmorList implements List<Armor> {
      */
     @Override
     public boolean contains(Object o) {
-/*        if (o == null) {
-            throw new ArmorException("Cannot be null");
-        }*/
         for (Armor armor: this) {
             if (armor.equals(o)) return true;
         }

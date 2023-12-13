@@ -510,6 +510,23 @@ class ArmorListTest {
     }
 
     @Test
+    void testSetAtTheEnd() {
+        List<Armor> expected = new ArrayList<>();
+
+        expected.add(sword);
+        expected.add(helmet);
+        expected.add(helmet);
+
+        armorList.add(sword);
+        armorList.add(helmet);
+        armorList.add(shield);
+
+        assertEquals(shield, armorList.set(2, helmet));
+        assertEquals(expected.size(), armorList.size());
+        assertArrayEquals(expected.toArray(), armorList.toArray());
+    }
+
+    @Test
     void testSetIndexOutOfRange() {
         String excMess1 = "Index should be in the range of size.";
 
