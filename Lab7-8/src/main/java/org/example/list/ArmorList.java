@@ -1,9 +1,10 @@
 package org.example.list;
 
 import org.example.armor.Armor;
+import org.example.exception.ArmorException;
 
+import javax.print.attribute.standard.JobKOctets;
 import java.util.*;
-import java.util.function.UnaryOperator;
 
 public class ArmorList implements List<Armor> {
     private  int size;
@@ -17,19 +18,21 @@ public class ArmorList implements List<Armor> {
     }
 
     public ArmorList(Armor armor) {
-        this();
+        if (armor == null) {
+            throw new ArmorException("Cannot be null");
+        }
         add(armor);
     }
 
     public ArmorList(Collection<? extends Armor> collection) {
-        this();
+        if (collection == null) {
+            throw new ArmorException("Cannot be null");
+        }
         addAll(collection);
     }
 
     /**
-     * Returns the number of elements in this list.  If this list contains
-     * more than {@code Integer.MAX_VALUE} elements, returns
-     * {@code Integer.MAX_VALUE}.
+     * Returns the number of elements in this list.
      *
      * @return the number of elements in this list
      */
@@ -65,6 +68,9 @@ public class ArmorList implements List<Armor> {
      */
     @Override
     public boolean contains(Object o) {
+/*        if (o == null) {
+            throw new ArmorException("Cannot be null");
+        }*/
         for (Armor armor: this) {
             if (armor.equals(o)) return true;
         }
@@ -87,14 +93,12 @@ public class ArmorList implements List<Armor> {
 
         /**
          * Returns {@code true} if the iteration has more elements.
-         * (In other words, returns {@code true} if {@link #next} would
-         * return an element rather than throwing an exception.)
          *
          * @return {@code true} if the iteration has more elements
          */
         @Override
         public boolean hasNext() {
-            return node.getNext() != null;
+            return node != null;
         }
 
         /**
@@ -108,10 +112,6 @@ public class ArmorList implements List<Armor> {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
-
-/*            node = node.getNext();
-
-            return node.getData();*/
 
             Armor armor = node.getData();
             node = node.getNext();
@@ -137,19 +137,16 @@ public class ArmorList implements List<Armor> {
      * @see Arrays#asList(Object[])
      */
     @Override
-    public Object[] toArray() {
-        Object[] armors = new Object[size];
+    public Armor[] toArray() {
+        Armor[] armors = new Armor[size];
         int index = 0;
         Node current = head;
 
         while (current != null) {
-            armors[index] = current;
-
+            armors[index] = current.getData();
             current = current.getNext();
             index++;
         }
-
-/*        return Arrays.copyOf(elementData, size);*/
 
         return armors;
     }
@@ -195,24 +192,15 @@ public class ArmorList implements List<Armor> {
      */
     @Override
     public <T> T[] toArray(T[] a) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     /**
      * Appends the specified element to the end of this list (optional
      * operation).
      *
-     * <p>Lists that support this operation may place limitations on what
-     * elements may be added to this list.  In particular, some
-     * lists will refuse to add null elements, and others will impose
-     * restrictions on the type of elements that may be added.  List
-     * classes should clearly specify in their documentation any restrictions
-     * on what elements may be added.
-     *
      * @param armor element to be appended to this list
      * @return {@code true} (as specified by {@link Collection#add})
-     * @throws UnsupportedOperationException if the {@code add} operation
-     *                                       is not supported by this list
      * @throws ClassCastException            if the class of the specified element
      *                                       prevents it from being added to this list
      * @throws NullPointerException          if the specified element is null and this
@@ -222,6 +210,10 @@ public class ArmorList implements List<Armor> {
      */
     @Override
     public boolean add(Armor armor) {
+        if (armor == null) {
+            throw new ArmorException("Cannot be null!");
+        }
+
         Node node = new Node(armor);
 
         if (head == null) {
@@ -254,40 +246,40 @@ public class ArmorList implements List<Armor> {
      * @throws NullPointerException          if the specified element is null and this
      *                                       list does not permit null elements
      *                                       (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @throws UnsupportedOperationException if the {@code remove} operation
-     *                                       is not supported by this list
      */
     @Override
     public boolean remove(Object o) {
+        if (o == null) {
+            throw new ArmorException("Cannot be null!");
+        }
         Node current = head;
 
         while (current != null) {
             if (current.getData().equals(o)) {
                 if (current.getPrev() == null) {
                     head = current.getNext();
-                }
+                } else current.getPrev().setNext(current.getNext());
 
                 if (current.getNext() == null) {
                     tail = current.getPrev();
-                }
+                } else current.getNext().setPrev(current.getPrev());
 
-                current.getPrev().setNext(current.getNext());
-                current.getNext().setPrev(current.getPrev());
+                size--;
+                return true;
             }
 
             current = current.getNext();
         }
-        size--;
 
-        return true;
+        return false;
     }
 
     /**
-     * Returns {@code true} if this list contains all of the elements of the
+     * Returns {@code true} if this list contains all the elements of the
      * specified collection.
      *
      * @param c collection to be checked for containment in this list
-     * @return {@code true} if this list contains all of the elements of the
+     * @return {@code true} if this list contains all the elements of the
      * specified collection
      * @throws ClassCastException   if the types of one or more elements
      *                              in the specified collection are incompatible with this
@@ -303,7 +295,7 @@ public class ArmorList implements List<Armor> {
     @Override
     public boolean containsAll(Collection<?> c) {
         for (Object o: c) {
-            if (!this.contains(o)) return false;
+            if (!contains(o)) return false;
         }
         return true;
     }
@@ -311,15 +303,10 @@ public class ArmorList implements List<Armor> {
     /**
      * Appends all the elements in the specified collection to the end of
      * this list, in the order that they are returned by the specified
-     * collection's iterator (optional operation).  The behavior of this
-     * operation is undefined if the specified collection is modified while
-     * the operation is in progress.  (Note that this will occur if the
-     * specified collection is this list, and it's nonempty.)
+     * collection's iterator (optional operation).
      *
      * @param c collection containing elements to be added to this list
      * @return {@code true} if this list changed as a result of the call
-     * @throws UnsupportedOperationException if the {@code addAll} operation
-     *                                       is not supported by this list
      * @throws ClassCastException            if the class of an element of the specified
      *                                       collection prevents it from being added to this list
      * @throws NullPointerException          if the specified collection contains one
@@ -327,12 +314,15 @@ public class ArmorList implements List<Armor> {
      *                                       elements, or if the specified collection is null
      * @throws IllegalArgumentException      if some property of an element of the
      *                                       specified collection prevents it from being added to this list
-     * @see #add(Object)
      */
     @Override
     public boolean addAll(Collection<? extends Armor> c) {
+        if (c.contains(null)) {
+            throw new IllegalArgumentException("Cannot contain null!");
+        }
+
         for (Armor armor: c) {
-            this.add(armor);
+            add(armor);
         }
 
         return true;
@@ -344,17 +334,12 @@ public class ArmorList implements List<Armor> {
      * element currently at that position (if any) and any subsequent
      * elements to the right (increases their indices).  The new elements
      * will appear in this list in the order that they are returned by the
-     * specified collection's iterator.  The behavior of this operation is
-     * undefined if the specified collection is modified while the
-     * operation is in progress.  (Note that this will occur if the specified
-     * collection is this list, and it's nonempty.)
+     * specified collection's iterator.
      *
      * @param index index at which to insert the first element from the
      *              specified collection
      * @param c     collection containing elements to be added to this list
      * @return {@code true} if this list changed as a result of the call
-     * @throws UnsupportedOperationException if the {@code addAll} operation
-     *                                       is not supported by this list
      * @throws ClassCastException            if the class of an element of the specified
      *                                       collection prevents it from being added to this list
      * @throws NullPointerException          if the specified collection contains one
@@ -362,11 +347,16 @@ public class ArmorList implements List<Armor> {
      *                                       elements, or if the specified collection is null
      * @throws IllegalArgumentException      if some property of an element of the
      *                                       specified collection prevents it from being added to this list
-     * @throws IndexOutOfBoundsException     if the index is out of range
-     *                                       ({@code index < 0 || index > size()})
      */
     @Override
     public boolean addAll(int index, Collection<? extends Armor> c) {
+        if (index < 0 || index > size()) {
+            throw new IllegalArgumentException("Index should be in the range of size.");
+        }
+        if (c.contains(null)) {
+            throw new IllegalArgumentException("Cannot contain null!");
+        }
+
         for (Armor armor: c) {
             add(index, armor);
             index++;
@@ -395,11 +385,15 @@ public class ArmorList implements List<Armor> {
      */
     @Override
     public boolean removeAll(Collection<?> c) {
+        boolean removed = true;
+
         for (Object o: c) {
-            this.remove(o);
+            while (contains(o)){
+                removed &= remove(o);
+            }
         }
 
-        return true;
+        return removed;
     }
 
     /**
@@ -424,12 +418,20 @@ public class ArmorList implements List<Armor> {
      */
     @Override
     public boolean retainAll(Collection<?> c) {
+        if (c.contains(null)) {
+            throw new IllegalArgumentException("Cannot contain null!");
+        }
+
+        List<Armor> toRemove = new ArrayList<>();
+
+
         for (Armor armor: this) {
-            for (Object o: c) {
-                if (!armor.equals(o)) return remove(armor);
+            if (!c.contains(armor)) {
+                toRemove.add(armor);
             }
         }
-        return true;
+
+        return removeAll(toRemove);
     }
 
     /**
@@ -441,8 +443,9 @@ public class ArmorList implements List<Armor> {
      */
     @Override
     public void clear() {
-        // size == 0;
+        size = 0;
         head = null;
+        tail = null;
     }
 
     /**
@@ -455,6 +458,10 @@ public class ArmorList implements List<Armor> {
      */
     @Override
     public Armor get(int index) {
+        if (index < 0 || index >= size) {
+            throw new IllegalArgumentException("Index should be in the range of size.");
+        }
+
         int count = 0;
 
         for (Armor armor: this) {
@@ -485,15 +492,32 @@ public class ArmorList implements List<Armor> {
      */
     @Override
     public Armor set(int index, Armor element) {
+        if (index < 0 || index >= size) {
+            throw new IllegalArgumentException("Index should be in the range of size.");
+        }
+
+        if (element == null) {
+            throw new ArmorException("Cannot be null!");
+        }
+
         Node node = new Node(element);
-        Node current = new Node(this.get(index));
+        Node current = getNodeByIndex(index);
 
-        current.getPrev().setNext(node);
-        node.setPrev(current.getPrev());
-        node.setNext(current.getNext());
-        current.getPrev().setPrev(node);
+        if (current.getPrev() == null) {
+            head = node;
+        } else {
+            current.getPrev().setNext(node);
+            node.setPrev(current.getPrev());
+        }
 
-        return node.getData();
+        if (current.getNext() == null) {
+            tail = node;
+        } else {
+            current.getNext().setPrev(node);
+            node.setNext(current.getNext());
+        }
+
+        return current.getData();
     }
 
     /**
@@ -517,13 +541,39 @@ public class ArmorList implements List<Armor> {
      */
     @Override
     public void add(int index, Armor element) {
-        Node node = new Node(element);
-        Node current = new Node(this.get(index));
+        if (index < 0 || index > size()) {
+            throw new IllegalArgumentException("Index should be in the range of size.");
+        }
 
-        current.getPrev().setNext(node);
-        node.setPrev(current.getPrev());
-        node.setNext(current);
-        current.setPrev(node);
+        Node node = new Node(element);
+        if (index == 0) {
+            node.setNext(head);
+
+            if (head != null) {
+                head.setPrev(node);
+            }
+            head = node;
+
+            if (tail == null) {
+                tail = node;
+            }
+        } else {
+            Node current = getNodeByIndex(index - 1);
+            node.setPrev(current);
+            node.setNext(current.getNext());
+
+            if (current.getNext() != null) {
+                current.getNext().setPrev(node);
+            }
+
+            current.setNext(node);
+
+            if (node.getNext() == null) {
+                tail = node;
+            }
+        }
+
+        size++;
     }
 
     /**
@@ -541,13 +591,29 @@ public class ArmorList implements List<Armor> {
      */
     @Override
     public Armor remove(int index) {
-        Node current = new Node(this.get(index));
+        if (index < 0 || index >= size()) {
+            throw new IndexOutOfBoundsException("Index should be in the range of size.");
+        }
 
-        current.getPrev().setNext(current.getNext());
-        current.getNext().setPrev(current.getPrev());
+        Node current = getNodeByIndex(index);
+
+        if (current.getPrev() == null) {
+            head = current.getNext();
+        } else {
+            current.getPrev().setNext(current.getNext());
+        }
+
+        if (current.getNext() == null) {
+            tail = current.getPrev();
+        } else {
+            current.getNext().setPrev(current.getPrev());
+        }
+
+        size--;
 
         return current.getData();
     }
+
 
     /**
      * Returns the index of the first occurrence of the specified element
@@ -571,12 +637,12 @@ public class ArmorList implements List<Armor> {
         int index = 0;
 
         for (Armor armor: this) {
-            if (armor.equals(o)) break;
+            if (armor.equals(o)) return index;
 
             index++;
         }
 
-        return index;
+        return -1;
     }
 
     /**
@@ -601,12 +667,12 @@ public class ArmorList implements List<Armor> {
         int index = size;
 
         for (Armor armor: this) {
-            if (armor.equals(o)) break;
-
             index--;
+
+            if (armor.equals(o)) return index;
         }
 
-        return index;
+        return -1;
     }
 
     /**
@@ -618,7 +684,7 @@ public class ArmorList implements List<Armor> {
      */
     @Override
     public ListIterator<Armor> listIterator() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -638,35 +704,14 @@ public class ArmorList implements List<Armor> {
      */
     @Override
     public ListIterator<Armor> listIterator(int index) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     /**
      * Returns a view of the portion of this list between the specified
      * {@code fromIndex}, inclusive, and {@code toIndex}, exclusive.  (If
      * {@code fromIndex} and {@code toIndex} are equal, the returned list is
-     * empty.)  The returned list is backed by this list, so non-structural
-     * changes in the returned list are reflected in this list, and vice-versa.
-     * The returned list supports all of the optional list operations supported
-     * by this list.<p>
-     * <p>
-     * This method eliminates the need for explicit range operations (of
-     * the sort that commonly exist for arrays).  Any operation that expects
-     * a list can be used as a range operation by passing a subList view
-     * instead of a whole list.  For example, the following idiom
-     * removes a range of elements from a list:
-     * <pre>{@code
-     *      list.subList(from, to).clear();
-     * }</pre>
-     * Similar idioms may be constructed for {@code indexOf} and
-     * {@code lastIndexOf}, and all of the algorithms in the
-     * {@code Collections} class can be applied to a subList.<p>
-     * <p>
-     * The semantics of the list returned by this method become undefined if
-     * the backing list (i.e., this list) is <i>structurally modified</i> in
-     * any way other than via the returned list.  (Structural modifications are
-     * those that change the size of this list, or otherwise perturb it in such
-     * a fashion that iterations in progress may yield incorrect results.)
+     * empty.)
      *
      * @param fromIndex low endpoint (inclusive) of the subList
      * @param toIndex   high endpoint (exclusive) of the subList
@@ -677,137 +722,32 @@ public class ArmorList implements List<Armor> {
      */
     @Override
     public List<Armor> subList(int fromIndex, int toIndex) {
+        if (fromIndex < 0 || toIndex > size || toIndex < fromIndex) {
+            throw new IndexOutOfBoundsException("Index should be in the range of size.");
+        }
         List<Armor> res = new ArmorList();
-
-        for (int i = fromIndex; i <= toIndex; i++) {
-            res.add(this.get(i));
+        if (fromIndex != toIndex) {
+            for (int i = fromIndex; i <= toIndex; i++) {
+                res.add(get(i));
+            }
         }
 
         return res;
     }
 
-    /**
-     * Replaces each element of this list with the result of applying the
-     * operator to that element.  Errors or runtime exceptions thrown by
-     * the operator are relayed to the caller.
-     *
-     * @param operator the operator to apply to each element
-     * @throws UnsupportedOperationException if this list is unmodifiable.
-     *                                       Implementations may throw this exception if an element
-     *                                       cannot be replaced or if, in general, modification is not
-     *                                       supported
-     * @throws NullPointerException          if the specified operator is null or
-     *                                       if the operator result is a null value and this list does
-     *                                       not permit null elements
-     *                                       (<a href="Collection.html#optional-restrictions">optional</a>)
-     * @implSpec The default implementation is equivalent to, for this {@code list}:
-     * <pre>{@code
-     *     final ListIterator<E> li = list.listIterator();
-     *     while (li.hasNext()) {
-     *         li.set(operator.apply(li.next()));
-     *     }
-     * }</pre>
-     * <p>
-     * If the list's list-iterator does not support the {@code set} operation
-     * then an {@code UnsupportedOperationException} will be thrown when
-     * replacing the first element.
-     * @since 1.8
-     */
-    @Override
-    public void replaceAll(UnaryOperator<Armor> operator) {
-        List.super.replaceAll(operator);
-    }
+    public Node getNodeByIndex(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index should be in the range of size.");
+        }
 
-    /**
-     * Sorts this list according to the order induced by the specified
-     * {@link Comparator}.  The sort is <i>stable</i>: this method must not
-     * reorder equal elements.
-     *
-     * <p>All elements in this list must be <i>mutually comparable</i> using the
-     * specified comparator (that is, {@code c.compare(e1, e2)} must not throw
-     * a {@code ClassCastException} for any elements {@code e1} and {@code e2}
-     * in the list).
-     *
-     * <p>If the specified comparator is {@code null} then all elements in this
-     * list must implement the {@link Comparable} interface and the elements'
-     * {@linkplain Comparable natural ordering} should be used.
-     *
-     * <p>This list must be modifiable, but need not be resizable.
-     *
-     * @param c the {@code Comparator} used to compare list elements.
-     *          A {@code null} value indicates that the elements'
-     *          {@linkplain Comparable natural ordering} should be used
-     * @throws ClassCastException            if the list contains elements that are not
-     *                                       <i>mutually comparable</i> using the specified comparator
-     * @throws UnsupportedOperationException if the list's list-iterator does
-     *                                       not support the {@code set} operation
-     * @throws IllegalArgumentException      (<a href="Collection.html#optional-restrictions">optional</a>)
-     *                                       if the comparator is found to violate the {@link Comparator}
-     *                                       contract
-     * @implSpec The default implementation obtains an array containing all elements in
-     * this list, sorts the array, and iterates over this list resetting each
-     * element from the corresponding position in the array. (This avoids the
-     * n<sup>2</sup> log(n) performance that would result from attempting
-     * to sort a linked list in place.)
-     * @implNote This implementation is a stable, adaptive, iterative mergesort that
-     * requires far fewer than n lg(n) comparisons when the input array is
-     * partially sorted, while offering the performance of a traditional
-     * mergesort when the input array is randomly ordered.  If the input array
-     * is nearly sorted, the implementation requires approximately n
-     * comparisons.  Temporary storage requirements vary from a small constant
-     * for nearly sorted input arrays to n/2 object references for randomly
-     * ordered input arrays.
-     *
-     * <p>The implementation takes equal advantage of ascending and
-     * descending order in its input array, and can take advantage of
-     * ascending and descending order in different parts of the same
-     * input array.  It is well-suited to merging two or more sorted arrays:
-     * simply concatenate the arrays and sort the resulting array.
-     *
-     * <p>The implementation was adapted from Tim Peters's list sort for Python
-     * (<a href="http://svn.python.org/projects/python/trunk/Objects/listsort.txt">
-     * TimSort</a>).  It uses techniques from Peter McIlroy's "Optimistic
-     * Sorting and Information Theoretic Complexity", in Proceedings of the
-     * Fourth Annual ACM-SIAM Symposium on Discrete Algorithms, pp 467-474,
-     * January 1993.
-     * @since 1.8
-     */
-    @Override
-    public void sort(Comparator<? super Armor> c) {
-        List.super.sort(c);
-    }
+        Node current = head;
+        int count = 0;
 
-    /**
-     * Creates a {@link Spliterator} over the elements in this list.
-     *
-     * <p>The {@code Spliterator} reports {@link Spliterator#SIZED} and
-     * {@link Spliterator#ORDERED}.  Implementations should document the
-     * reporting of additional characteristic values.
-     *
-     * @return a {@code Spliterator} over the elements in this list
-     * @implSpec The default implementation creates a
-     * <em><a href="Spliterator.html#binding">late-binding</a></em>
-     * spliterator as follows:
-     * <ul>
-     * <li>If the list is an instance of {@link RandomAccess} then the default
-     *     implementation creates a spliterator that traverses elements by
-     *     invoking the method {@link List#get}.  If such invocation results or
-     *     would result in an {@code IndexOutOfBoundsException} then the
-     *     spliterator will <em>fail-fast</em> and throw a
-     *     {@code ConcurrentModificationException}.
-     *     If the list is also an instance of {@link AbstractList} then the
-     *     spliterator will use the list's {@link AbstractList#modCount modCount}
-     *     field to provide additional <em>fail-fast</em> behavior.
-     * <li>Otherwise, the default implementation creates a spliterator from the
-     *     list's {@code Iterator}.  The spliterator inherits the
-     *     <em>fail-fast</em> of the list's iterator.
-     * </ul>
-     * @implNote The created {@code Spliterator} additionally reports
-     * {@link Spliterator#SUBSIZED}.
-     * @since 1.8
-     */
-    @Override
-    public Spliterator<Armor> spliterator() {
-        return List.super.spliterator();
+        while (count < index) {
+            current = current.getNext();
+            count++;
+        }
+
+        return current;
     }
 }

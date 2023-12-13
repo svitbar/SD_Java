@@ -3,11 +3,18 @@ package org.example.list;
 import org.example.armor.Armor;
 
 public class Node {
-    private final Armor data;
+    private Armor data;
     private Node prev;
     private Node next;
 
+    public Node() {
+    }
+
     public Node(Armor data) {
+        this.data = data;
+    }
+
+    public void setData(Armor data) {
         this.data = data;
     }
 
